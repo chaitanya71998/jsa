@@ -12,7 +12,7 @@ interface AdBannerProps {
 const AdBanner: React.FC<AdBannerProps> = ({ 
   position, 
   className,
-  adClient = "ca-pub-XXXXXXXXXXXXXXXX", // Replace with your actual AdSense publisher ID
+  adClient = "ca-pub-9893011429707159", // Updated with your actual AdSense publisher ID
   adSlot = "XXXXXXXXXX" // Replace with your actual ad slot ID
 }) => {
   const adContainerRef = useRef<HTMLDivElement>(null);
