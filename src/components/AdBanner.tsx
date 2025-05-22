@@ -7,27 +7,30 @@ interface AdBannerProps {
   className?: string;
   adClient?: string;
   adSlot?: string;
+  responsive?: boolean;
 }
 
 const AdBanner: React.FC<AdBannerProps> = ({ 
   position, 
   className,
   adClient = "ca-pub-9893011429707159", // Updated with your actual AdSense publisher ID
-  adSlot = "XXXXXXXXXX" // Replace with your actual ad slot ID
+  adSlot = "XXXXXXXXXX", // Replace with your actual ad slot ID
+  responsive = true
 }) => {
   const adContainerRef = useRef<HTMLDivElement>(null);
   
   // Define styles and ad sizes based on position
   const styles = {
-    top: 'w-full h-20 bg-gradient-to-r from-blue-500/20 to-purple-500/20',
-    side: 'h-full w-[250px] bg-gradient-to-b from-green-500/20 to-blue-500/20',
-    bottom: 'w-full h-20 bg-gradient-to-r from-purple-500/20 to-pink-500/20',
+    top: 'w-full h-auto min-h-20 bg-gradient-to-r from-blue-500/5 to-purple-500/5 mb-6',
+    side: 'h-full min-h-[600px] w-full md:w-[300px] lg:w-[336px] bg-gradient-to-b from-green-500/5 to-blue-500/5',
+    bottom: 'w-full h-auto min-h-20 bg-gradient-to-r from-purple-500/5 to-pink-500/5 mt-6',
   };
   
+  // Standard ad sizes
   const adSizes = {
-    top: [728, 90],      // Leaderboard
-    side: [300, 600],    // Large Skyscraper
-    bottom: [728, 90],   // Leaderboard
+    top: responsive ? [[728, 90], [970, 90], [320, 50], [468, 60]] : [728, 90],
+    side: responsive ? [[300, 600], [336, 280], [300, 250]] : [300, 600],
+    bottom: responsive ? [[728, 90], [970, 90], [320, 50], [468, 60]] : [728, 90],
   };
   
   // Initialize Google AdSense ads
@@ -47,8 +50,15 @@ const AdBanner: React.FC<AdBannerProps> = ({
         const adElement = document.createElement('ins');
         adElement.className = 'adsbygoogle';
         adElement.style.display = 'block';
-        adElement.style.width = `${adSizes[position][0]}px`;
-        adElement.style.height = `${adSizes[position][1]}px`;
+        
+        if (responsive) {
+          adElement.setAttribute('data-ad-format', 'auto');
+          adElement.setAttribute('data-full-width-responsive', 'true');
+        } else {
+          adElement.style.width = `${adSizes[position][0]}px`;
+          adElement.style.height = `${adSizes[position][1]}px`;
+        }
+        
         adElement.setAttribute('data-ad-client', adClient);
         adElement.setAttribute('data-ad-slot', adSlot);
         
@@ -61,24 +71,25 @@ const AdBanner: React.FC<AdBannerProps> = ({
         console.error('AdSense error:', error);
       }
     }
-  }, [position, adClient, adSlot]);
+  }, [position, adClient, adSlot, responsive]);
   
   return (
     <div 
       className={cn(
-        "flex items-center justify-center rounded-lg border border-dashed",
+        "flex items-center justify-center rounded-lg border border-dashed p-4",
         styles[position],
         className
       )}
+      aria-label="Advertisement"
     >
       <div ref={adContainerRef} className="w-full h-full flex items-center justify-center">
         {/* Fallback content while ads are loading */}
         <div className="text-muted-foreground text-center">
           <p className="text-sm font-medium">Advertisement</p>
           <p className="text-xs">
-            {position === 'top' && '728×90 Banner Ad'}
-            {position === 'side' && '300×600 Skyscraper Ad'}
-            {position === 'bottom' && '728×90 Banner Ad'}
+            {position === 'top' && 'Banner Ad'}
+            {position === 'side' && 'Sidebar Ad'}
+            {position === 'bottom' && 'Banner Ad'}
           </p>
         </div>
       </div>
