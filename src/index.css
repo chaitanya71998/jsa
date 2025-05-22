@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -49,6 +50,16 @@
     --sidebar-border: 220 13% 91%;
 
     --sidebar-ring: 217.2 91.2% 59.8%;
+    
+    /* JSON viewer colors */
+    --json-background: 220 20% 14%;
+    --json-string: 150 80% 60%;
+    --json-number: 35 100% 60%;
+    --json-boolean: 330 100% 60%;
+    --json-null: 0 0% 60%;
+    --json-key: 210 100% 75%;
+    --json-bracket: 0 0% 80%;
+    --json-colon: 0 0% 80%;
   }
 
   .dark {
@@ -98,4 +109,58 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Import monospace font for code */
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap');
+
+.font-code {
+  font-family: 'Fira Code', monospace;
+}
+
+/* JSON viewer styles */
+.json-viewer {
+  background-color: hsl(var(--json-background));
+  color: white;
+  border-radius: 0.5rem;
+  overflow: auto;
+}
+
+.json-key {
+  color: hsl(var(--json-key));
+}
+
+.json-string {
+  color: hsl(var(--json-string));
+}
+
+.json-number {
+  color: hsl(var(--json-number));
+}
+
+.json-boolean {
+  color: hsl(var(--json-boolean));
+}
+
+.json-null {
+  color: hsl(var(--json-null));
+}
+
+.json-colon {
+  color: hsl(var(--json-colon));
+  margin-right: 0.5rem;
+}
+
+.json-bracket {
+  color: hsl(var(--json-bracket));
+}
+
+.json-toggle {
+  cursor: pointer;
+  margin-right: 0.25rem;
+  user-select: none;
+}
+
+.json-indent {
+  margin-left: 1.5rem;
 }
