@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
@@ -6,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import JsonNode from './JsonNode';
 import { toast } from 'sonner';
-import { Copy, FileJson, Code, Check, Download, Upload, Globe, Minimize, Expand, Eye } from 'lucide-react';
+import { Copy, FileJson, Code, Check, Download, Upload, Globe, Minimize, Expand, Eye, Quote } from 'lucide-react';
 import { Toggle } from '@/components/ui/toggle';
 
 interface JsonViewerProps {
@@ -25,6 +24,7 @@ const JsonViewer: React.FC<JsonViewerProps> = ({ defaultJson = '', className = '
   const [isLoading, setIsLoading] = useState(false);
   const [selectedPath, setSelectedPath] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [stringifiedJson, setStringifiedJson] = useState<string>('');
   
   useEffect(() => {
     if (jsonInput) {
@@ -164,6 +164,32 @@ const JsonViewer: React.FC<JsonViewerProps> = ({ defaultJson = '', className = '
     setSelectedPath(path);
   };
 
+  const stringifyJson = () => {
+    if (parsedJson) {
+      try {
+        // Escape any backslashes and quotes in the JSON string
+        const jsonString = JSON.stringify(parsedJson);
+        const escaped = jsonString.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+        setStringifiedJson(`"${escaped}"`);
+        setActiveTab('stringify');
+        toast.success('JSON stringified successfully');
+      } catch (err) {
+        toast.error(`Error during stringify: ${(err as Error).message}`);
+      }
+    } else {
+      toast.error('No valid JSON to stringify');
+    }
+  };
+
+  const copyStringified = () => {
+    if (stringifiedJson) {
+      navigator.clipboard.writeText(stringifiedJson);
+      setCopied(true);
+      toast.success('Stringified JSON copied to clipboard');
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
   return (
     <div className={`bg-card rounded-lg shadow-lg ${className}`}>
       <div className="p-4 border-b flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -199,6 +225,14 @@ const JsonViewer: React.FC<JsonViewerProps> = ({ defaultJson = '', className = '
           <Button 
             size="sm" 
             variant="outline" 
+            onClick={stringifyJson} 
+            disabled={!parsedJson}
+          >
+            <Quote className="w-4 h-4 mr-1" /> Stringify
+          </Button>
+          <Button 
+            size="sm" 
+            variant="outline" 
             onClick={copyToClipboard} 
             disabled={!parsedJson}
           >
@@ -225,9 +259,10 @@ const JsonViewer: React.FC<JsonViewerProps> = ({ defaultJson = '', className = '
         onValueChange={(val) => setActiveTab(val)}
       >
         <div className="p-4">
-          <TabsList className="w-full grid grid-cols-3">
+          <TabsList className="w-full grid grid-cols-4">
             <TabsTrigger value="viewer"><Eye className="w-4 h-4 mr-1" /> Viewer</TabsTrigger>
             <TabsTrigger value="input"><Code className="w-4 h-4 mr-1" /> JSON Input</TabsTrigger>
+            <TabsTrigger value="stringify"><Quote className="w-4 h-4 mr-1" /> Stringify</TabsTrigger>
             <TabsTrigger value="import"><Upload className="w-4 h-4 mr-1" /> Import</TabsTrigger>
           </TabsList>
         </div>
@@ -272,6 +307,34 @@ const JsonViewer: React.FC<JsonViewerProps> = ({ defaultJson = '', className = '
               {error}
             </div>
           )}
+        </TabsContent>
+        
+        <TabsContent value="stringify" className="p-4">
+          <div className="space-y-4">
+            <div>
+              <h2 className="text-lg font-medium mb-2">Stringified JSON</h2>
+              <p className="text-sm text-muted-foreground mb-4">
+                Use this format when you need to include JSON as a string in JavaScript code.
+              </p>
+              <div className="relative">
+                <Textarea 
+                  placeholder="Click the 'Stringify' button to generate a stringified version of your JSON..."
+                  className="font-code min-h-[300px] whitespace-pre-wrap"
+                  value={stringifiedJson}
+                  readOnly
+                />
+                <Button 
+                  size="sm" 
+                  variant="outline" 
+                  className="absolute top-2 right-2"
+                  onClick={copyStringified}
+                  disabled={!stringifiedJson}
+                >
+                  <Copy className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+          </div>
         </TabsContent>
         
         <TabsContent value="import" className="p-4">
