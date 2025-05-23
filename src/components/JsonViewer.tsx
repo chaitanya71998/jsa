@@ -390,7 +390,7 @@ const JsonViewer: React.FC<JsonViewerProps> = ({ defaultJson = '', className = '
               </p>
               <div className="space-y-4">
                 <Textarea 
-                  placeholder="Paste your stringified JSON here... (e.g., \"{\\\"name\\\":\\\"JSON Viewer\\\"}\")"
+                  placeholder='Paste your stringified JSON here... (e.g., "{\"name\":\"JSON Viewer\"}")'
                   className="font-code min-h-[250px]"
                   value={stringInput}
                   onChange={handleStringInputChange}
