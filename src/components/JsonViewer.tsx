@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import JsonNode from './JsonNode';
 import { toast } from 'sonner';
-import { Copy, FileJson, Code, Check, Download, Upload, Globe, Minimize, Expand, Eye, Quote } from 'lucide-react';
+import { Copy, FileJson, Code, Check, Download, Upload, Globe, Minimize, Expand, Eye, Quote, FileInput } from 'lucide-react';
 import { Toggle } from '@/components/ui/toggle';
 
 interface JsonViewerProps {
@@ -25,6 +25,7 @@ const JsonViewer: React.FC<JsonViewerProps> = ({ defaultJson = '', className = '
   const [selectedPath, setSelectedPath] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [stringifiedJson, setStringifiedJson] = useState<string>('');
+  const [stringInput, setStringInput] = useState<string>('');
   
   useEffect(() => {
     if (jsonInput) {
@@ -190,6 +191,48 @@ const JsonViewer: React.FC<JsonViewerProps> = ({ defaultJson = '', className = '
     }
   };
 
+  const handleStringInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setStringInput(e.target.value);
+  };
+
+  const parseStringifiedJson = () => {
+    if (!stringInput.trim()) {
+      toast.error('Please enter a stringified JSON');
+      return;
+    }
+
+    try {
+      // Try to parse the stringified JSON (it might be wrapped in quotes)
+      let processedInput = stringInput;
+      
+      // Check if the input is wrapped in quotes and has escaped quotes within
+      const stringMatch = stringInput.match(/^["'](.+)["']$/s);
+      if (stringMatch) {
+        // This could be a JavaScript string, so unescape it
+        processedInput = stringMatch[1]
+          .replace(/\\"/g, '"')        // Replace escaped quotes with quotes
+          .replace(/\\'/g, "'")        // Replace escaped single quotes
+          .replace(/\\\\/g, '\\')      // Replace double backslashes with single
+          .replace(/\\n/g, '\n')       // Replace escaped newlines
+          .replace(/\\r/g, '\r')       // Replace escaped carriage returns
+          .replace(/\\t/g, '\t')       // Replace escaped tabs
+          .replace(/\\b/g, '\b')       // Replace escaped backspace
+          .replace(/\\f/g, '\f');      // Replace escaped form feed
+      }
+      
+      // Now try to parse as JSON
+      const parsed = JSON.parse(processedInput);
+      setParsedJson(parsed);
+      setJsonInput(JSON.stringify(parsed, null, 2));
+      setError(null);
+      setActiveTab('viewer');
+      toast.success('String parsed successfully');
+    } catch (err) {
+      toast.error(`Error parsing string: ${(err as Error).message}`);
+      setError((err as Error).message);
+    }
+  };
+
   return (
     <div className={`bg-card rounded-lg shadow-lg ${className}`}>
       <div className="p-4 border-b flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -259,10 +302,11 @@ const JsonViewer: React.FC<JsonViewerProps> = ({ defaultJson = '', className = '
         onValueChange={(val) => setActiveTab(val)}
       >
         <div className="p-4">
-          <TabsList className="w-full grid grid-cols-4">
+          <TabsList className="w-full grid grid-cols-5">
             <TabsTrigger value="viewer"><Eye className="w-4 h-4 mr-1" /> Viewer</TabsTrigger>
             <TabsTrigger value="input"><Code className="w-4 h-4 mr-1" /> JSON Input</TabsTrigger>
             <TabsTrigger value="stringify"><Quote className="w-4 h-4 mr-1" /> Stringify</TabsTrigger>
+            <TabsTrigger value="parseString"><FileInput className="w-4 h-4 mr-1" /> Parse String</TabsTrigger>
             <TabsTrigger value="import"><Upload className="w-4 h-4 mr-1" /> Import</TabsTrigger>
           </TabsList>
         </div>
@@ -332,6 +376,36 @@ const JsonViewer: React.FC<JsonViewerProps> = ({ defaultJson = '', className = '
                 >
                   <Copy className="w-4 h-4" />
                 </Button>
+              </div>
+            </div>
+          </div>
+        </TabsContent>
+        
+        <TabsContent value="parseString" className="p-4">
+          <div className="space-y-4">
+            <div>
+              <h2 className="text-lg font-medium mb-2">Parse Stringified JSON</h2>
+              <p className="text-sm text-muted-foreground mb-4">
+                Paste a stringified JSON string (with escaped quotes and backslashes) and convert it back to a readable JSON object.
+              </p>
+              <div className="space-y-4">
+                <Textarea 
+                  placeholder="Paste your stringified JSON here... (e.g., \"{\\\"name\\\":\\\"JSON Viewer\\\"}\")"
+                  className="font-code min-h-[250px]"
+                  value={stringInput}
+                  onChange={handleStringInputChange}
+                />
+                <Button 
+                  onClick={parseStringifiedJson}
+                  className="w-full"
+                >
+                  <FileInput className="w-4 h-4 mr-1" /> Parse String to JSON
+                </Button>
+                {error && (
+                  <div className="text-red-500 mt-2 text-sm">
+                    {error}
+                  </div>
+                )}
               </div>
             </div>
           </div>
