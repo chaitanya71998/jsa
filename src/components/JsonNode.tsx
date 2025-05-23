@@ -5,7 +5,7 @@ import { ChevronRight, ChevronDown } from 'lucide-react';
 
 interface JsonNodeProps {
   data: any;
-  name?: string;
+  name?: string | number;
   isRoot?: boolean;
   level?: number;
   path?: string;
@@ -67,7 +67,7 @@ const JsonNode: React.FC<JsonNodeProps> = ({
         >
           {!isRoot && name !== undefined && (
             <>
-              <span className="json-key">"{name}"</span>
+              <span className="json-key">{typeof name === 'string' ? `"${name}"` : name}</span>
               <span className="json-colon">:</span>
             </>
           )}
@@ -121,7 +121,7 @@ const JsonNode: React.FC<JsonNodeProps> = ({
       >
         {name !== undefined && (
           <>
-            <span className="json-key">"{name}"</span>
+            <span className="json-key">{typeof name === 'string' ? `"${name}"` : name}</span>
             <span className="json-colon">:</span>
           </>
         )}
