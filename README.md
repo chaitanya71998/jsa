@@ -1,73 +1,126 @@
-# Welcome to your Lovable project
 
-## Project info
+# JSONToolbox - JSON Formatter & Viewer
 
-**URL**: https://lovable.dev/projects/344a8acd-4741-43e2-984f-d6ac0e1f1186
+A powerful, free online JSON formatter, viewer, and editor with advanced features including tree view, syntax highlighting, validation, and minification.
 
-## How can I edit this code?
+## 🚀 Features
 
-There are several ways of editing your application.
+- **JSON Formatting & Beautification**: Pretty-print your JSON with proper indentation
+- **JSON Minification**: Compress JSON by removing unnecessary whitespace
+- **Interactive Tree View**: Navigate complex JSON structures with expandable/collapsible nodes
+- **Syntax Highlighting**: Easy-to-read color-coded JSON display
+- **JSON Validation**: Real-time error detection and validation feedback
+- **String Operations**: Convert JSON to strings and parse stringified JSON back
+- **Import/Export**: Load JSON from files or URLs, download formatted results
+- **Copy to Clipboard**: One-click copying of formatted or minified JSON
+- **Dark/Light Theme**: Toggle between themes for comfortable viewing
+- **Path Display**: See the current path when navigating through JSON objects
+- **Mobile Responsive**: Works seamlessly on desktop and mobile devices
 
-**Use Lovable**
+## 🛠️ Tech Stack
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/344a8acd-4741-43e2-984f-d6ac0e1f1186) and start prompting.
+This project is built with modern web technologies:
 
-Changes made via Lovable will be committed automatically to this repo.
+- **React 18** - Modern React with hooks
+- **TypeScript** - Type-safe development
+- **Vite** - Fast build tool and development server
+- **Tailwind CSS** - Utility-first CSS framework
+- **shadcn/ui** - Beautiful, accessible UI components
+- **Lucide React** - Modern icon library
+- **React Router** - Client-side routing
+- **Tanstack Query** - Data fetching and state management
 
-**Use your preferred IDE**
+## 🎯 Use Cases
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Perfect for developers, data analysts, and anyone working with JSON:
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- **API Development**: Format and validate API responses
+- **Data Analysis**: Explore complex JSON data structures
+- **Configuration Files**: Edit and validate JSON configuration files
+- **Debugging**: Inspect and understand JSON data structures
+- **Data Migration**: Convert between different JSON formats
+- **Learning**: Understand JSON structure and syntax
 
-Follow these steps:
+## 🌐 Live Demo
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+Visit the live application: [JSONToolbox](https://jsontoolbox.app/)
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## 🚀 Getting Started
 
-# Step 3: Install the necessary dependencies.
-npm i
+### Prerequisites
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+- Node.js (version 16 or higher)
+- npm or yarn package manager
+
+### Installation
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/jsontoolbox.git
+cd jsontoolbox
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Start the development server:
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+4. Open your browser and navigate to `http://localhost:5173`
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Building for Production
 
-**Use GitHub Codespaces**
+```bash
+npm run build
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+The built files will be in the `dist` directory.
 
-## What technologies are used for this project?
+## 📝 How to Use
 
-This project is built with:
+1. **JSON Input**: Paste your JSON data in the "JSON Input" tab
+2. **View**: Switch to the "Viewer" tab to see your JSON in an interactive tree format
+3. **Format**: Use the "Format" button to beautify your JSON
+4. **Minify**: Use the "Minify" button to compress your JSON
+5. **Stringify**: Convert your JSON to a JavaScript string format
+6. **Parse String**: Convert stringified JSON back to readable format
+7. **Import**: Load JSON from files or URLs
+8. **Export**: Download your formatted JSON as a file
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 🤝 Contributing
 
-## How can I deploy this project?
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
 
-Simply open [Lovable](https://lovable.dev/projects/344a8acd-4741-43e2-984f-d6ac0e1f1186) and click on Share -> Publish.
+### Development Guidelines
 
-## Can I connect a custom domain to my Lovable project?
+- Follow TypeScript best practices
+- Use existing UI components from shadcn/ui
+- Maintain responsive design principles
+- Write meaningful commit messages
+- Test your changes thoroughly
 
-Yes, you can!
+## 📄 License
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+This project is open source and available under the [MIT License](LICENSE).
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## 🙏 Acknowledgments
+
+- Built with [Lovable](https://lovable.dev) - AI-powered web development platform
+- UI components from [shadcn/ui](https://ui.shadcn.com/)
+- Icons from [Lucide](https://lucide.dev/)
+
+## 📧 Support
+
+If you have any questions or need support, please:
+
+1. Check the FAQ section on the website
+2. Open an issue on GitHub
+3. Visit our documentation
+
+---
+
+**JSONToolbox** - Making JSON data beautiful and accessible for everyone! 🎨
