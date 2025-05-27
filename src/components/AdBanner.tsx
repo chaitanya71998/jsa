@@ -8,45 +8,43 @@ interface AdBannerProps {
   adClient?: string;
   adSlot?: string;
   responsive?: boolean;
+  showAd?: boolean;
+  hasContent?: boolean;
 }
 
 const AdBanner: React.FC<AdBannerProps> = ({ 
   position, 
   className,
-  adClient = "ca-pub-9893011429707159", // Updated with your actual AdSense publisher ID
-  adSlot = "XXXXXXXXXX", // Replace with your actual ad slot ID
-  responsive = true
+  adClient = "ca-pub-9893011429707159",
+  adSlot, // Remove default placeholder
+  responsive = true,
+  showAd = true,
+  hasContent = false
 }) => {
   const adContainerRef = useRef<HTMLDivElement>(null);
   
-  // Define styles and ad sizes based on position
-  const styles = {
-    top: 'w-full h-auto min-h-20 bg-gradient-to-r from-blue-500/5 to-purple-500/5 mb-6',
-    side: 'h-full min-h-[600px] w-full md:w-[300px] lg:w-[336px] bg-gradient-to-b from-green-500/5 to-blue-500/5',
-    bottom: 'w-full h-auto min-h-20 bg-gradient-to-r from-purple-500/5 to-pink-500/5 mt-6',
-  };
+  // Don't render ads if content requirements aren't met
+  if (!showAd || !hasContent || !adSlot) {
+    return null;
+  }
   
-  // Standard ad sizes
-  const adSizes = {
-    top: responsive ? [[728, 90], [970, 90], [320, 50], [468, 60]] : [728, 90],
-    side: responsive ? [[300, 600], [336, 280], [300, 250]] : [300, 600],
-    bottom: responsive ? [[728, 90], [970, 90], [320, 50], [468, 60]] : [728, 90],
+  // Define styles based on position
+  const styles = {
+    top: 'w-full h-auto min-h-[90px] mb-6',
+    side: 'h-auto min-h-[250px] w-full md:w-[300px] lg:w-[336px]',
+    bottom: 'w-full h-auto min-h-[90px] mt-6',
   };
   
   // Initialize Google AdSense ads
   useEffect(() => {
-    // Only run on client side
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined' || !hasContent || !adSlot) return;
     
-    // Check if AdSense script is loaded
     if (window.adsbygoogle) {
       try {
-        // Clear previous ad if exists
         if (adContainerRef.current) {
           adContainerRef.current.innerHTML = '';
         }
 
-        // Insert ad
         const adElement = document.createElement('ins');
         adElement.className = 'adsbygoogle';
         adElement.style.display = 'block';
@@ -54,9 +52,6 @@ const AdBanner: React.FC<AdBannerProps> = ({
         if (responsive) {
           adElement.setAttribute('data-ad-format', 'auto');
           adElement.setAttribute('data-full-width-responsive', 'true');
-        } else {
-          adElement.style.width = `${adSizes[position][0]}px`;
-          adElement.style.height = `${adSizes[position][1]}px`;
         }
         
         adElement.setAttribute('data-ad-client', adClient);
@@ -64,40 +59,28 @@ const AdBanner: React.FC<AdBannerProps> = ({
         
         if (adContainerRef.current) {
           adContainerRef.current.appendChild(adElement);
-          // Push the ad to AdSense
           (window.adsbygoogle = window.adsbygoogle || []).push({});
         }
       } catch (error) {
         console.error('AdSense error:', error);
       }
     }
-  }, [position, adClient, adSlot, responsive]);
+  }, [position, adClient, adSlot, responsive, hasContent]);
   
   return (
     <div 
       className={cn(
-        "flex items-center justify-center rounded-lg border border-dashed p-4",
+        "flex items-center justify-center",
         styles[position],
         className
       )}
       aria-label="Advertisement"
     >
-      <div ref={adContainerRef} className="w-full h-full flex items-center justify-center">
-        {/* Fallback content while ads are loading */}
-        <div className="text-muted-foreground text-center">
-          <p className="text-sm font-medium">Advertisement</p>
-          <p className="text-xs">
-            {position === 'top' && 'Banner Ad'}
-            {position === 'side' && 'Sidebar Ad'}
-            {position === 'bottom' && 'Banner Ad'}
-          </p>
-        </div>
-      </div>
+      <div ref={adContainerRef} className="w-full h-full" />
     </div>
   );
 };
 
-// Add window.adsbygoogle type declaration
 declare global {
   interface Window {
     adsbygoogle: any[];

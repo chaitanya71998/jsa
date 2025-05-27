@@ -4,6 +4,7 @@ import JsonViewer from '@/components/JsonViewer';
 import AdBanner from '@/components/AdBanner';
 import FaqSection from '@/components/FaqSection';
 import HowToUseSection from '@/components/HowToUseSection';
+import JsonExamplesSection from '@/components/JsonExamplesSection';
 import { MoonIcon, SunIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTheme } from 'next-themes';
@@ -49,6 +50,14 @@ const sampleJson = `{
 
 const Index = () => {
   const { theme, setTheme } = useTheme();
+  const [contentValidation, setContentValidation] = useState({
+    hasValidContent: true, // Start with true since we have sample JSON
+    isContentSubstantial: true
+  });
+  
+  const handleContentValidationChange = (validation: any) => {
+    setContentValidation(validation);
+  };
   
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -69,23 +78,46 @@ const Index = () => {
         </div>
       </header>
       
-      {/* Top Ad Banner */}
-      <div className="w-full max-w-7xl mx-auto px-4 pt-6">
-        <AdBanner position="top" />
-      </div>
-      
       <main className="flex-1 max-w-7xl mx-auto w-full px-4 py-6">
+        {/* Introduction Section with substantial content */}
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold tracking-tight mb-4">JSON Formatter & Viewer</h1>
+          <div className="prose prose-lg max-w-none mb-6">
+            <p className="text-lg text-muted-foreground mb-4">
+              A powerful, free online JSON formatter, viewer, and validator designed for developers, data analysts, 
+              and anyone working with JSON data. Our tool provides an intuitive interface with advanced features 
+              including interactive tree view, real-time validation, syntax highlighting, and seamless import/export capabilities.
+            </p>
+            <p className="text-muted-foreground mb-4">
+              Whether you're debugging API responses, analyzing complex data structures, editing configuration files, 
+              or learning JSON syntax, our comprehensive toolset makes working with JSON data effortless and efficient. 
+              Format messy JSON with proper indentation, validate syntax errors in real-time, and explore nested 
+              structures with our interactive tree viewer.
+            </p>
+          </div>
+        </div>
+
+        {/* Top Ad Banner - only show with substantial content */}
+        {contentValidation.isContentSubstantial && (
+          <AdBanner 
+            position="top" 
+            hasContent={contentValidation.hasValidContent}
+            showAd={contentValidation.isContentSubstantial}
+            adSlot="1234567890" // Replace with actual ad slot ID
+          />
+        )}
+        
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Main Content */}
           <div className="flex-1">
-            <div className="mb-6">
-              <h1 className="text-3xl font-bold tracking-tight mb-2">JSON Formatter & Viewer</h1>
-              <p className="text-muted-foreground">
-                A free online tool to format, beautify, and validate your JSON data with an interactive tree view, syntax highlighting, and advanced features.
-              </p>
-            </div>
+            <JsonViewer 
+              defaultJson={sampleJson} 
+              onContentValidationChange={handleContentValidationChange}
+            />
             
-            <JsonViewer defaultJson={sampleJson} />
+            <div className="mt-12">
+              <JsonExamplesSection />
+            </div>
             
             <div className="mt-12">
               <HowToUseSection />
@@ -96,17 +128,30 @@ const Index = () => {
             </div>
           </div>
           
-          {/* Side Ad Banner */}
-          <div className="hidden lg:block">
-            <AdBanner position="side" className="sticky top-24" />
-          </div>
+          {/* Side Ad Banner - only show with substantial content and on larger screens */}
+          {contentValidation.isContentSubstantial && (
+            <div className="hidden lg:block">
+              <AdBanner 
+                position="side" 
+                className="sticky top-24" 
+                hasContent={contentValidation.hasValidContent}
+                showAd={contentValidation.isContentSubstantial}
+                adSlot="0987654321" // Replace with actual ad slot ID
+              />
+            </div>
+          )}
         </div>
       </main>
       
-      {/* Bottom Ad Banner */}
-      <div className="w-full max-w-7xl mx-auto px-4 pb-6">
-        <AdBanner position="bottom" />
-      </div>
+      {/* Bottom Ad Banner - only show with substantial content */}
+      {contentValidation.isContentSubstantial && (
+        <AdBanner 
+          position="bottom" 
+          hasContent={contentValidation.hasValidContent}
+          showAd={contentValidation.isContentSubstantial}
+          adSlot="1122334455" // Replace with actual ad slot ID
+        />
+      )}
       
       {/* Footer */}
       <footer className="w-full py-6 px-4 border-t bg-card/50">

@@ -7,13 +7,19 @@ import JsonNode from './JsonNode';
 import { toast } from 'sonner';
 import { Copy, FileJson, Code, Check, Download, Upload, Globe, Minimize, Expand, Eye, Quote, FileInput } from 'lucide-react';
 import { Toggle } from '@/components/ui/toggle';
+import { useContentValidation } from '@/hooks/useContentValidation';
 
 interface JsonViewerProps {
   defaultJson?: string;
   className?: string;
+  onContentValidationChange?: (validation: any) => void;
 }
 
-const JsonViewer: React.FC<JsonViewerProps> = ({ defaultJson = '', className = '' }) => {
+const JsonViewer: React.FC<JsonViewerProps> = ({ 
+  defaultJson = '', 
+  className = '',
+  onContentValidationChange
+}) => {
   const [jsonInput, setJsonInput] = useState(defaultJson);
   const [parsedJson, setParsedJson] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
@@ -26,6 +32,16 @@ const JsonViewer: React.FC<JsonViewerProps> = ({ defaultJson = '', className = '
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [stringifiedJson, setStringifiedJson] = useState<string>('');
   const [stringInput, setStringInput] = useState<string>('');
+  
+  // Use content validation hook
+  const contentValidation = useContentValidation(jsonInput, parsedJson, error);
+  
+  // Notify parent component about content validation changes
+  useEffect(() => {
+    if (onContentValidationChange) {
+      onContentValidationChange(contentValidation);
+    }
+  }, [contentValidation, onContentValidationChange]);
   
   useEffect(() => {
     if (jsonInput) {
@@ -168,7 +184,6 @@ const JsonViewer: React.FC<JsonViewerProps> = ({ defaultJson = '', className = '
   const stringifyJson = () => {
     if (parsedJson) {
       try {
-        // Escape any backslashes and quotes in the JSON string
         const jsonString = JSON.stringify(parsedJson);
         const escaped = jsonString.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
         setStringifiedJson(`"${escaped}"`);
@@ -202,25 +217,21 @@ const JsonViewer: React.FC<JsonViewerProps> = ({ defaultJson = '', className = '
     }
 
     try {
-      // Try to parse the stringified JSON (it might be wrapped in quotes)
       let processedInput = stringInput;
       
-      // Check if the input is wrapped in quotes and has escaped quotes within
       const stringMatch = stringInput.match(/^["'](.+)["']$/s);
       if (stringMatch) {
-        // This could be a JavaScript string, so unescape it
         processedInput = stringMatch[1]
-          .replace(/\\"/g, '"')        // Replace escaped quotes with quotes
-          .replace(/\\'/g, "'")        // Replace escaped single quotes
-          .replace(/\\\\/g, '\\')      // Replace double backslashes with single
-          .replace(/\\n/g, '\n')       // Replace escaped newlines
-          .replace(/\\r/g, '\r')       // Replace escaped carriage returns
-          .replace(/\\t/g, '\t')       // Replace escaped tabs
-          .replace(/\\b/g, '\b')       // Replace escaped backspace
-          .replace(/\\f/g, '\f');      // Replace escaped form feed
+          .replace(/\\"/g, '"')
+          .replace(/\\'/g, "'")
+          .replace(/\\\\/g, '\\')
+          .replace(/\\n/g, '\n')
+          .replace(/\\r/g, '\r')
+          .replace(/\\t/g, '\t')
+          .replace(/\\b/g, '\b')
+          .replace(/\\f/g, '\f');
       }
       
-      // Now try to parse as JSON
       const parsed = JSON.parse(processedInput);
       setParsedJson(parsed);
       setJsonInput(JSON.stringify(parsed, null, 2));
