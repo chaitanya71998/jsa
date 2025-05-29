@@ -1,0 +1,29 @@
+Subject: Website Content Audit and Update for Quality & AdSense Approval
+You are an AI agent tasked with thoroughly reviewing and updating the content of a website. Your primary objective is to ensure the website's content adheres to the principles of high-quality, valuable content as described in the YouTube video "Thin content (and why quality content matters) | Sustainable Monetized Websites" (specifically drawing on the points regarding types of low-quality content and what constitutes good content). The ultimate aim is to make the site compliant with Google's quality guidelines for both organic search and, crucially, Google AdSense approval.
+Please perform the following actions:
+Phase 1: Content Audit & Identification of Issues
+
+1.  Identify Thin Content: Scan the entire website for pages or sections that have very little content or limited added value for the user. Flag these as potential issues.
+2.  Detect Automatically Generated Content: Look for content that appears to be programmatically generated. Specifically, identify sections that seem nonsensical or unnatural but are keyword-heavy, automated translations that haven't been reviewed, or text that appears to be stitched together from different sources without providing new insights. Flag these for removal or extensive rewriting.
+3.  Evaluate Affiliate Pages (If Applicable): If the website uses affiliate links, review these pages carefully. Identify thin affiliate pages that seem to be templates with replicated content from merchants. Assess if these pages fail to provide additional, unique value for users. Flag these pages.
+4.  Spot Replicated Content: Identify any content that is a direct copy or is substantially similar to content found on other sources on the web. Flag duplicated sections or pages.
+5.  Find Doorway Pages: Look for pages specifically designed with minimal unique content to target specific keywords and funnel users to another page without offering significant value on the intermediary page itself. This includes looking for patterns like multiple location-specific pages that all lead to the same main content. Flag these pages.
+    Phase 2: Content Improvement & Creation
+    Based on the audit findings and the video's guidance on quality content, implement the following updates:
+6.  Enhance Uniqueness and Relevance: For all important pages, ensure the content is unique and relevant, giving users a compelling reason to visit this specific site regularly. Rewrite flagged thin content to add substantial value.
+7.  Add Value Beyond Source Material: Where content draws from other sources (like merchant information on affiliate sites), ensure your site adds significant value beyond simply republishing. Provide original reviews, comparisons, ratings, or unique perspectives.
+8.  Differentiate the Site: Update content to make the site stand out from others. Highlight the unique features, insights, or information your site provides.
+9.  Focus on User Experience: Ensure content is written for humans and provides a good user experience, avoiding frustrating elements often found on thin or auto-generated sites.
+10. Integrate Affiliate Content Thoughtfully (If Applicable): If improving affiliate pages, integrate unique features like price or product category information prominently. Ensure the affiliate content matches the product category relevant to the audience and that the affiliate program is not the central part of the content's focus.
+11. Ensure Originality: Rewrite any identified replicated content to be original and unique.
+12. Remove or Restructure Doorway Pages: Remove identified doorway pages. Rework any necessary content so it exists on valuable, user-facing pages rather than intermediary ones designed solely for search engines.
+13. Improve Content Freshness and Relevance: Suggest or implement a strategy for keeping content updated and relevant over time. Fresh content is more useful to users and search engines.
+14. Support Community Building (Optional): Where appropriate, suggest content types or features that could help build a community among users, encouraging repeat visits and loyalty.
+    Phase 3: Reporting
+    Provide a detailed report outlining:
+    •
+    The specific pages or sections identified as having low-quality content issues (thin, auto-generated, thin affiliate, replicated, doorway).
+    •
+    The specific changes made or recommended for each identified issue to bring it into compliance with the video's quality standards.
+    •
+    Confirmation that the site's content now prioritises uniqueness, value, and a positive user experience, aligning with the requirements for Google AdSense approval and better search ranking.
