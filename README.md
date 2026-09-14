@@ -43,7 +43,7 @@ Perfect for developers, data analysts, and anyone working with JSON:
 
 ## 🌐 Live Demo
 
-Visit the live application: [JSONToolbox](https://jsontoolbox.app/)
+Visit the live application: [JSONToolbox](https://jsa.lovable.app)
 
 ## 🚀 Getting Started
 
@@ -56,8 +56,8 @@ Visit the live application: [JSONToolbox](https://jsontoolbox.app/)
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/jsontoolbox.git
-cd jsontoolbox
+git clone https://github.com/chaitanya71998/jsa.git
+cd jsa
 ```
 
 2. Install dependencies:
